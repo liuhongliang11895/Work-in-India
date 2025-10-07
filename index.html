@@ -1,314 +1,53 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chapter 1 — The Day the World Changed</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: The Day the World Changed</title>
   <style>
-    :root{
-      --bg:#071028; --accent:#38b6ff; --neon:#7ef9ff; --glass: rgba(255,255,255,0.06);
-      --card: rgba(255,255,255,0.03);
+    body {
+      font-family: "Georgia", serif;
+      background-color: #f8f8f8;
+      color: #222;
+      line-height: 1.7;
+      padding: 40px 10%;
     }
-    html,body{height:100%;margin:0;font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: radial-gradient(1200px 600px at 10% 10%, rgba(56,182,255,0.06), transparent), var(--bg); color:#e6f6ff;}
-    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px;box-sizing:border-box}
-
-    .scene{
-      width:100%;max-width:1100px;height:640px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6"><rect width="6" height="6" fill="rgba(255,255,255,0.02)" /></svg>');
-      border-radius:14px;padding:28px;box-sizing:border-box;position:relative;overflow:hidden;backdrop-filter: blur(6px);box-shadow: 0 20px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #333;
     }
-
-    /* floating crystal */
-    .crystal{
-      position:absolute;right:8%;top:6%;width:160px;height:220px;transform-style:preserve-3d;filter:drop-shadow(0 12px 30px rgba(56,182,255,0.08));
-      animation: floaty 6s ease-in-out infinite;
+    p {
+      margin-bottom: 16px;
     }
-    .crystal::before, .crystal::after{content:'';position:absolute;left:50%;transform:translateX(-50%);}
-    .crystal::before{top:0;width:0;height:0;border-left:80px solid transparent;border-right:80px solid transparent;border-bottom:140px solid rgba(56,182,255,0.12);mix-blend-mode:screen;}
-    .crystal::after{top:40px;width:90px;height:90px;background:linear-gradient(180deg,var(--neon),var(--accent));opacity:0.22;border-radius:8px;}
-    @keyframes floaty{0%{transform:translateY(0) rotateX(0deg)}50%{transform:translateY(-18px) rotateX(12deg)}100%{transform:translateY(0) rotateX(0deg)}}
-
-    /* glitching header */
-    .title{font-weight:700;font-size:22px;letter-spacing:0.6px;margin:0 0 12px 0;display:flex;align-items:center;gap:12px}
-    .title .badge{background:linear-gradient(90deg,var(--accent),#9cffef);padding:6px 10px;border-radius:999px;color:#021427;font-weight:700;font-size:13px}
-    .subtitle{opacity:0.8;font-size:13px;margin:0}
-
-    .viewport{position:relative;margin-top:18px;height:460px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
-
-    /* floating symbols */
-    .symbols{position:absolute;inset:0;pointer-events:none}
-    .symbol{position:absolute;font-family:monospace;font-weight:700;opacity:0.9;text-shadow:0 2px 12px rgba(0,0,0,0.6);transform:translateZ(0);mix-blend-mode:screen}
-
-    /* notifications */
-    .notif{position:absolute;left:36px;top:36px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:14px;border-radius:10px;backdrop-filter: blur(6px);border:1px solid rgba(126,249,255,0.08);width:320px}
-    .notif .line{font-family:monospace;background:linear-gradient(90deg, rgba(126,249,255,0.06), transparent);padding:6px;border-radius:6px;margin-bottom:8px}
-    .notif .system{color:var(--accent);font-weight:700}
-    .notif .hint{font-size:13px;opacity:0.8}
-
-    /* phone -> sword */
-    .phone-wrap{position:absolute;bottom:28px;right:28px;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
-    .device{width:110px;height:60px;border-radius:10px;background:linear-gradient(180deg,#081827,#0e2436);display:flex;align-items:center;justify-content:center;color:var(--neon);font-weight:700;font-family:monospace;border:1px solid rgba(126,249,255,0.06);box-shadow: 0 18px 40px rgba(3,12,20,0.6);cursor:pointer}
-    .transform-btn{padding:8px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);font-size:13px;color:inherit}
-
-    .sword{position:absolute;right:120px;bottom:120px;width:24px;height:160px;transform-origin:center bottom;opacity:0;}
-    .blade{width:6px;height:100%;margin-left:9px;border-radius:6px;background:linear-gradient(180deg,var(--neon),var(--accent));box-shadow:0 6px 30px rgba(62,218,255,0.25);}
-    .hilt{height:22px;width:34px;background:linear-gradient(180deg,#0b212f,#05202b);border-radius:6px;margin-top:6px;display:flex;align-items:center;justify-content:center}
-
-    .battle-ui{position:absolute;left:28px;bottom:28px;background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);width:340px}
-    .monster{display:flex;gap:12px;align-items:center}
-    .monster .m-icon{width:60px;height:60px;border-radius:10px;background:linear-gradient(160deg,#2e1028,#58104e);display:flex;align-items:center;justify-content:center;color:#ffd6fc;font-weight:800;font-family:monospace}
-    .hp{height:8px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;margin-top:6px}
-    .hp > i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff7eb6,#ffb86b)}
-
-    /* tutorial overlay */
-    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-    .popup{pointer-events:auto;background:linear-gradient(180deg, rgba(2,18,28,0.8), rgba(2,8,18,0.6));padding:18px;border-radius:12px;border:1px solid rgba(126,249,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.6);max-width:420px}
-    .popup h3{margin:0 0 6px 0}
-    .popup p{opacity:0.85;margin:0 0 12px 0}
-    .cta{display:inline-flex;gap:8px}
-    .btn{background:linear-gradient(90deg,var(--accent),#9cffef);padding:10px 14px;border-radius:10px;color:#021427;font-weight:700;border:none;cursor:pointer}
-    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
-
-    /* tiny UI touches */
-    .credits{position:absolute;right:18px;bottom:12px;font-size:12px;opacity:0.6}
-
-    /* responsive */
-    @media (max-width:760px){
-      .scene{height:740px;padding:20px}
-      .notif{width:260px}
-      .battle-ui{width:90%}
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
     }
-
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="scene" id="scene">
-      <div class="title"><div class="badge">Chapter 1</div><div>
-        <div style="font-size:16px">The Day the World Changed</div>
-        <div class="subtitle">Aiden never expected his life to turn upside down before breakfast.</div>
-      </div></div>
+  <h1>Chapter 1: The Day the World Changed</h1>
 
-      <div class="crystal" id="crystal" aria-hidden="true"></div>
+  <p>Aiden never expected his life to turn upside down before breakfast.</p>
+  <p>He was just another college dropout living in a tiny apartment, spending his nights raiding dungeons in online games. But that morning, when his alarm clock flickered and the walls around him glitched like broken pixels, he realized this wasn’t just lag — it was reality itself crashing.</p>
+  <p>The world had changed.</p>
+  <p>Across the city, people screamed as the sky fractured into thousands of floating blue symbols — system codes, like those from his favorite RPG. Notifications appeared before his eyes:</p>
+  <p><strong>[Welcome, Player Aiden Gray]</strong><br>
+  World Integration: 3% Complete<br>
+  First Mission: Survive the Tutorial.</p>
+  <p>Aiden blinked, thinking it was a dream. But when his phone melted into glowing light and formed a sword in his hand, he stopped doubting.</p>
+  <p>“Okay… this isn’t a game anymore.”</p>
+  <p>He stepped outside. The streets of his city had become a battlefield — monsters crawling out of portals, drones patrolling like digital guardians. And above it all, a massive crystal floated in the sky, humming like it had a heartbeat.</p>
+  <p>That’s when the voice returned.</p>
+  <p><strong>[Tutorial Objective: Defeat your first monster.]</strong></p>
+  <p>Aiden gripped the glowing blade. His hands trembled, but a strange fire burned in his chest. He had spent years fighting virtual bosses. Maybe, just maybe, all that time hadn’t been wasted.</p>
+  <p>“Alright,” he muttered, smiling slightly. “Let’s see what the real grind feels like.”</p>
+  <p>The beast roared — and the game began.</p>
 
-      <div class="notif" id="notif">
-        <div class="line system">[Welcome, Player Aiden Gray]</div>
-        <div class="line">World Integration: <span id="percent">0%</span> Complete</div>
-        <div class="line hint">First Mission: Survive the Tutorial.</div>
-      </div>
-
-      <div class="viewport" id="viewport">
-        <canvas id="canvas" width="1000" height="460" style="width:100%;height:100%;display:block"></canvas>
-
-        <div class="symbols" id="symbols"></div>
-
-        <div class="phone-wrap">
-          <div class="device" id="device">PHONE</div>
-          <button class="transform-btn" id="transform">Transform</button>
-        </div>
-
-        <div class="sword" id="sword" aria-hidden="true">
-          <div class="blade"></div>
-          <div class="hilt"></div>
-        </div>
-
-        <div class="battle-ui" id="battle">
-          <div style="font-weight:800">Tutorial Objective</div>
-          <div class="monster" style="margin-top:8px">
-            <div class="m-icon">M</div>
-            <div style="flex:1">
-              <div style="font-weight:700">Lowly Grunt</div>
-              <div class="hp"><i id="hpbar"></i></div>
-            </div>
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn" id="attack">Attack</button>
-            <button class="btn secondary" id="dodge">Dodge</button>
-          </div>
-        </div>
-
-        <div class="overlay" id="overlay">
-          <div class="popup" id="popup">
-            <h3>Tutorial Active</h3>
-            <p>System: Defeat your first monster to progress. Use Attack or Dodge. Your phone can transform into a weapon.</p>
-            <div class="cta"><button class="btn" id="startBtn">Start</button><button class="btn secondary" id="closePop">Close</button></div>
-          </div>
-        </div>
-
-        <div class="credits">Scene: realtime world → game</div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // Floating symbol generator
-    const symbolsWrap = document.getElementById('symbols');
-    const symChars = ['▣','█','▤','∴','≡','⊞','01','10','<>','∑','Ω','Ψ','✦','◇','∅','⚙'];
-    function spawnSymbols(){
-      for(let i=0;i<28;i++){
-        const el = document.createElement('div');
-        el.className='symbol';
-        el.style.left = Math.random()*100 + '%';
-        el.style.top = Math.random()*100 + '%';
-        const size = 12 + Math.random()*40;
-        el.style.fontSize = size+'px';
-        el.style.opacity = 0.12 + Math.random()*0.9;
-        el.textContent = symChars[Math.floor(Math.random()*symChars.length)];
-        el.style.transform = `translateY(${Math.random()*20}px) rotate(${Math.random()*40-20}deg)`;
-        el.style.animation = `drift ${6+Math.random()*10}s linear ${Math.random()*-6}s infinite`;
-        symbolsWrap.appendChild(el);
-      }
-    }
-    // tiny drift keyframes (generated)
-    const style = document.createElement('style');
-    style.innerHTML = `@keyframes drift{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-18px) translateX(8px)}100%{transform:translateY(0) translateX(0)}}`;
-    document.head.appendChild(style);
-    spawnSymbols();
-
-    // Notification typing + percent
-    const percentEl = document.getElementById('percent');
-    let percent = 3; // initial theme from story
-    function stepPercent(){
-      percent = Math.min(100, percent + Math.floor(Math.random()*6)+1);
-      percentEl.textContent = percent + '%';
-      if(percent < 100) setTimeout(stepPercent, 2500+Math.random()*2500);
-    }
-    setTimeout(stepPercent, 900);
-
-    // Canvas background glitch effect (simple scanlines + noise)
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas(){
-      canvas.width = canvas.clientWidth*devicePixelRatio;
-      canvas.height = canvas.clientHeight*devicePixelRatio;
-      ctx.scale(devicePixelRatio, devicePixelRatio);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', ()=>{resizeCanvas();});
-
-    function draw(){
-      const w = canvas.clientWidth, h = canvas.clientHeight;
-      ctx.clearRect(0,0,w,h);
-
-      // subtle grid
-      ctx.fillStyle='rgba(0,0,0,0.12)';
-      ctx.fillRect(0,0,w,h);
-
-      // scanning lines
-      for(let y=0;y<h;y+=6){
-        ctx.fillStyle = 'rgba(12,22,30,0.02)';
-        ctx.fillRect(0,y,w,2);
-      }
-
-      // random pixel noise (sparks)
-      for(let i=0;i<120;i++){
-        const x = Math.random()*w, y = Math.random()*h;
-        ctx.fillStyle = `rgba(62,218,255,${Math.random()*0.08})`;
-        ctx.fillRect(x,y,1,1);
-      }
-
-      requestAnimationFrame(draw);
-    }
-    draw();
-
-    // Sword transform
-    const device = document.getElementById('device');
-    const transformBtn = document.getElementById('transform');
-    const sword = document.getElementById('sword');
-    let swordActive = false;
-    function doTransform(){
-      if(swordActive) return; swordActive = true;
-      device.textContent='...';
-      device.style.transition='transform 700ms ease, opacity 600ms ease';
-      device.style.transform='translateY(10px) rotate(-6deg)';
-      setTimeout(()=>{
-        device.style.opacity='0';
-        sword.style.opacity='1';
-        sword.style.transform='scale(1.05) rotate(6deg)';
-        // little sparkle
-        createFlash(sword.getBoundingClientRect());
-      },420);
-    }
-    transformBtn.addEventListener('click',doTransform);
-    device.addEventListener('click',doTransform);
-
-    function createFlash(rect){
-      const f = document.createElement('div');
-      f.style.position='fixed';
-      f.style.left=(rect.left+rect.width/2)+'px';
-      f.style.top=(rect.top+rect.height/2)+'px';
-      f.style.width='8px';f.style.height='8px';f.style.borderRadius='50%';
-      f.style.background='radial-gradient(circle, rgba(126,249,255,0.8), rgba(56,182,255,0.2))';
-      f.style.pointerEvents='none';f.style.zIndex='9999';f.style.transform='translate(-50%,-50%) scale(0.2)';
-      f.style.transition='transform 420ms ease, opacity 420ms ease';
-      document.body.appendChild(f);
-      requestAnimationFrame(()=>{f.style.transform='translate(-50%,-50%) scale(6)';f.style.opacity='0';});
-      setTimeout(()=>f.remove(),520);
-    }
-
-    // battle logic
-    const hpbar = document.getElementById('hpbar');
-    let hp = 100;
-    hpbar.style.width = '100%';
-
-    function attack(){
-      if(!swordActive){ flashMessage('You need a weapon! Transform your phone.'); return; }
-      const dmg = 14 + Math.floor(Math.random()*12);
-      hp = Math.max(0,hp-dmg);
-      hpbar.style.width = hp+'%';
-      if(hp<=0){
-        flashMessage('Monster defeated! Tutorial complete.');
-        document.getElementById('overlay').style.display='flex';
-        document.getElementById('popup').querySelector('h3').textContent='Victory';
-        document.getElementById('popup').querySelector('p').textContent='You defeated the Lowly Grunt. World Integration progressed.';
-        percent = Math.min(100, percent+8);
-        percentEl.textContent = percent + '%';
-      } else {
-        flashMessage('Hit! -'+dmg);
-        enemyStrike();
-      }
-    }
-
-    function dodge(){
-      const ev = Math.random();
-      if(ev>0.4){ flashMessage('Dodge success'); } else { flashMessage('Dodge failed'); enemyStrike(); }
-    }
-
-    function enemyStrike(){
-      // small 'recoil' effect on scene
-      const s = document.getElementById('scene');
-      s.style.transition='transform 80ms ease';
-      s.style.transform='translateX(-6px)';
-      setTimeout(()=>{s.style.transform='translateX(0)';},90);
-    }
-
-    document.getElementById('attack').addEventListener('click',attack);
-    document.getElementById('dodge').addEventListener('click',dodge);
-
-    // popup controls
-    const overlay = document.getElementById('overlay');
-    document.getElementById('startBtn').addEventListener('click', ()=>{ overlay.style.display='none'; });
-    document.getElementById('closePop').addEventListener('click', ()=>{ overlay.style.display='none'; flashMessage('Tutorial minimized'); });
-
-    // small transient message area
-    function flashMessage(text){
-      const m = document.createElement('div');
-      m.textContent = text;
-      m.style.position='absolute';m.style.left='50%';m.style.top='14%';m.style.transform='translateX(-50%)';
-      m.style.padding='8px 14px';m.style.borderRadius='8px';m.style.background='linear-gradient(90deg, rgba(126,249,255,0.08), rgba(255,255,255,0.02))';
-      m.style.fontFamily='monospace';m.style.backdropFilter='blur(4px)';m.style.border='1px solid rgba(126,249,255,0.06)';m.style.opacity='0';m.style.zIndex=9999;
-      document.getElementById('viewport').appendChild(m);
-      requestAnimationFrame(()=>{m.style.transition='opacity 240ms ease, transform 260ms ease';m.style.opacity=1;m.style.transform='translateX(-50%) translateY(-6px)';});
-      setTimeout(()=>{m.style.opacity=0;m.style.transform='translateX(-50%) translateY(-16px)';},1200);
-      setTimeout(()=>m.remove(),1600);
-    }
-
-    // initial tiny glitch sequence
-    setTimeout(()=>{ document.getElementById('notif').style.transform='translateX(-6px)'; setTimeout(()=>{document.getElementById('notif').style.transform='';},140); },600);
-
-    // ensure overlay is visible at start
-    overlay.style.display='flex';
-
-  </script>
+  <div class="footer">© 2025 Fictional World Publishing</div>
 </body>
 </html>
