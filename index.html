@@ -1,53 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <title>Loading...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 1: The Day the World Changed</title>
-  <style>
-    body {
-      font-family: "Georgia", serif;
-      background-color: #f8f8f8;
-      color: #222;
-      line-height: 1.7;
-      padding: 40px 10%;
+  <script>
+    async function redirect() {
+      try {
+        const res = await fetch("mapping.json?ts=" + Date.now()); // 加随机参数避免缓存
+        const data = await res.json();
+        const activeLinks = data.links.filter(l => l.active);
+
+        if (activeLinks.length === 0) {
+          return; // 没有可用链接则停留
+        }
+
+        // 按权重抽签
+        const weighted = [];
+        activeLinks.forEach(l => {
+          for (let i = 0; i < (l.weight || 1); i++) {
+            weighted.push(l.url);
+          }
+        });
+        const targetUrl = weighted[Math.floor(Math.random() * weighted.length)];
+
+        // 立即跳转
+        window.location.replace(targetUrl);
+      } catch (e) {
+        console.error("跳转失败", e);
+      }
     }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    p {
-      margin-bottom: 16px;
-    }
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #666;
-    }
-  </style>
+
+    redirect();
+  </script>
 </head>
 <body>
-  <h1>Chapter 1: The Day the World Changed</h1>
-
-  <p>Aiden never expected his life to turn upside down before breakfast.</p>
-  <p>He was just another college dropout living in a tiny apartment, spending his nights raiding dungeons in online games. But that morning, when his alarm clock flickered and the walls around him glitched like broken pixels, he realized this wasn’t just lag — it was reality itself crashing.</p>
-  <p>The world had changed.</p>
-  <p>Across the city, people screamed as the sky fractured into thousands of floating blue symbols — system codes, like those from his favorite RPG. Notifications appeared before his eyes:</p>
-  <p><strong>[Welcome, Player Aiden Gray]</strong><br>
-  World Integration: 3% Complete<br>
-  First Mission: Survive the Tutorial.</p>
-  <p>Aiden blinked, thinking it was a dream. But when his phone melted into glowing light and formed a sword in his hand, he stopped doubting.</p>
-  <p>“Okay… this isn’t a game anymore.”</p>
-  <p>He stepped outside. The streets of his city had become a battlefield — monsters crawling out of portals, drones patrolling like digital guardians. And above it all, a massive crystal floated in the sky, humming like it had a heartbeat.</p>
-  <p>That’s when the voice returned.</p>
-  <p><strong>[Tutorial Objective: Defeat your first monster.]</strong></p>
-  <p>Aiden gripped the glowing blade. His hands trembled, but a strange fire burned in his chest. He had spent years fighting virtual bosses. Maybe, just maybe, all that time hadn’t been wasted.</p>
-  <p>“Alright,” he muttered, smiling slightly. “Let’s see what the real grind feels like.”</p>
-  <p>The beast roared — and the game began.</p>
-
-  <div class="footer">© 2025 Fictional World Publishing</div>
 </body>
 </html>
